@@ -24,6 +24,7 @@ module.exports = () => {
   app.use(cors());
   consign({ cwd: "api" })
     .then("data")
+    .then("services")
     .then("controllers")
     .then("routes")
     .into(app);

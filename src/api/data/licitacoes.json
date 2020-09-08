@@ -1,12 +1,5 @@
 {
-    "sumario": {
-        "licitacoes": 10000,
-        "licitacoesAlertasIrregularidades": 100,
-        "totalAlertasIrregularidades": 15835,
-        "mediaAlertasIrregularidadesPorLicitacao": 2.4,
-        "medianaAlertasIrregularidadesPorLicitacao": 2.4
-    },
-    "licitacoes": [
+    "data": [
         {"numero": 876322, "processoLicitorio": "011121212", "valor": 100232323.23, "municipio": "Piranga", "funcoes": ["Agricultura", "Transporte"], "ano": 2018, "ranking": 20, "t1": 2, "t2": 2, "t3": 23}
     ] 
 }

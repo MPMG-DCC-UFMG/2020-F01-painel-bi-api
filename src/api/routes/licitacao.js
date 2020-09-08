@@ -1,5 +1,5 @@
 module.exports = (app) => {
-  const controller = app.controllers.licitacoes;
+  const controller = app.controllers.licitacao;
 
   /**
    * @swagger
@@ -10,5 +10,5 @@ module.exports = (app) => {
    *      '200':
    *        description: A successful response
    */
-  app.route("/api/v1/licitacoes").get(controller.listLicitacoes);
+  app.route("/api/v1/licitacao").get(controller.getLicitacoes);
 };
