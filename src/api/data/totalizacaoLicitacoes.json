@@ -1,0 +1,11 @@
+{
+    "data": [
+        {
+            "licitacoes": 10000, 
+            "comAlertasIrregularidades": 100,
+            "totalAlertasIrregularidadesIdentificadas": 15835,
+            "mediaAlertasIrregularidadesPorLicitacao": 15.835,
+            "medianaAlertasIrregularidadesPorLicitacao": 15
+        }
+    ]
+}
