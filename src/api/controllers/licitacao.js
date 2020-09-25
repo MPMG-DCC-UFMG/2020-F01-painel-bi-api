@@ -8,5 +8,10 @@ module.exports = (app) => {
     return res.status(200).json(licitacoes);
   };
 
+  controller.getLicitacao = (req, res) => {
+    const data = service.getLicitacao(req);
+    return res.status(200).json(data);
+  };
+
   return controller;
 };

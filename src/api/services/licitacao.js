@@ -4,7 +4,7 @@ module.exports = (app) => {
   const getLicitacoesPorLicitante = (idLicitante) => {};
 
   const getLicitacoes = (query) => {
-    const licitacoes = app.data.licitacoes;
+    const licitacoes = app.data.amostra_info_gerais;
     // TODO: Validar os parâmetros
     // Retornar a consulta
     // Fazer consulta paginada
@@ -25,10 +25,30 @@ module.exports = (app) => {
         'valorInicial',
         'valorFinal'
     ];
-    const pagina = query.p || 1;
+    const pagina = query.p-1 || 0;
     const tamanhoPagina = query.tp || 20;
-    return licitacoes;
+    return licitacoes.slice(pagina*tamanhoPagina, pagina*tamanhoPagina+tamanhoPagina);
   };
+
+
+  const getLicitacao = (req) => {
+    const licitacao = app.data.amostra_info_gerais;
+    const licitante = app.data.amostra_detalhamento_licitante;
+    const licitante_detalhe = app.data.amostra_detalhamento_licitacao;
+
+    var licitantes = licitante.filter(v=>v.seq_dim_licitacao==req.params.idLicitacao);
+
+    for(i=0; i<licitantes.length; i++){
+      licitantes[i].detalhes = licitante_detalhe.filter(v=>v.num_documento==licitantes[i].num_documento);
+    }
+
+    return {
+      licitacao: licitacao.find(v=>v.seq_dim_licitacao==req.params.idLicitacao),
+      licitantes: licitantes
+    };
+  };
+
+
 
   const getSumarioLicitacoes = (query) => {
     // TODO: Validar os parâmetros (como em getLicitacoes)
@@ -60,6 +80,7 @@ module.exports = (app) => {
     getLicitacaoById,
     getLicitacoesPorLicitante,
     getLicitacoes,
+    getLicitacao,
     getSumarioLicitacoes,
     getLicitantesPorLicitacao,
     getVencedoresLicitacao,
