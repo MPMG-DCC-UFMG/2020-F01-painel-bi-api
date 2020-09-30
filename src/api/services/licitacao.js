@@ -39,7 +39,7 @@ module.exports = (app) => {
     var licitantes = licitante.filter(v=>v.seq_dim_licitacao==req.params.idLicitacao);
 
     for(i=0; i<licitantes.length; i++){
-      licitantes[i].detalhes = licitante_detalhe.filter(v=>v.num_documento==licitantes[i].num_documento);
+      licitantes[i].detalhes = licitante_detalhe.filter(v=> v.num_documento==licitantes[i].num_documento && v.seq_dim_licitacao==req.params.idLicitacao );
     }
 
     return {
