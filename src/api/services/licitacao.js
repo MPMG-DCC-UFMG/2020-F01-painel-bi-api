@@ -34,12 +34,14 @@ module.exports = (app) => {
   const getLicitacao = (req) => {
     const licitacao = app.data.amostra_info_gerais;
     const licitante = app.data.amostra_detalhamento_licitante;
+    const cnpj = app.data.amostra_cnpj;
     const licitante_detalhe = app.data.amostra_detalhamento_licitacao;
 
     var licitantes = licitante.filter(v=>v.seq_dim_licitacao==req.params.idLicitacao);
 
     for(i=0; i<licitantes.length; i++){
       licitantes[i].detalhes = licitante_detalhe.filter(v=> v.num_documento==licitantes[i].num_documento && v.seq_dim_licitacao==req.params.idLicitacao );
+      licitantes[i].cnpj = cnpj.find(v=> v.num_documento==licitantes[i].num_documento );
     }
 
     return {
