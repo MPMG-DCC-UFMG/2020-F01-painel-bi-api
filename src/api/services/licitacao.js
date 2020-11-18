@@ -4,7 +4,7 @@ module.exports = (app) => {
   const getLicitacoesPorLicitante = (idLicitante) => {};
 
   const getLicitacoes = (query) => {
-    const licitacoes = app.data.amostra_info_gerais;
+    let licitacoes = app.data.amostra_info_gerais;
     // TODO: Validar os parâmetros
     // Retornar a consulta
     // Fazer consulta paginada
@@ -27,6 +27,11 @@ module.exports = (app) => {
     ];
     const pagina = query.p-1 || 0;
     const tamanhoPagina = query.tp || 20;
+
+    if(query.municipio) {
+      licitacoes = licitacoes.filter(v=>v.nom_entidade==query.municipio);
+    }
+
     return licitacoes.slice(pagina*tamanhoPagina, pagina*tamanhoPagina+tamanhoPagina);
   };
 
