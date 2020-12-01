@@ -11,4 +11,5 @@ module.exports = (app) => {
    *        description: A successful response
    */
   app.route("/api/v1/licitacao").get(controller.getLicitacoes);
+  app.route("/api/v1/filters").get(controller.getFilters);
 };
