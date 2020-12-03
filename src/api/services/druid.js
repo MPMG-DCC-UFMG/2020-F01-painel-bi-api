@@ -137,6 +137,8 @@ module.exports = (app) => {
                 "resultFormat": "list",
                 "columns":[],
                 "filter": options.filter,
+                "limit": options.limit,
+                "batchSize":20480,
                 "intervals": [interval+"/"+interval]
             });
 
@@ -145,7 +147,10 @@ module.exports = (app) => {
                     reject(err);
                 }
                 else {
-                    resolve( result[0].events );
+                    if(result.length>0)
+                        resolve( result[0].events );
+                    else 
+                        resolve( [] );
                 }
             })
 

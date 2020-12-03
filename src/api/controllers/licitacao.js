@@ -89,17 +89,7 @@ module.exports = (app) => {
 
     filters = addFilterInterval(filters, req.body, "ano", "num_exercicio");
     filters = addFilterInterval(filters, req.body, "valor", "vlr_licitacao");
-    
-    /*
-    municipios: [],
-    microrregiao: [],
-    mesorregiao: [],
-    comarca: [],
-    modalidades: [],
-    valor: [null, null],
-    ano: [null, null]
-    */
-    
+        
     switch(filters.length){
       case 0:
         filters = null;
@@ -114,9 +104,7 @@ module.exports = (app) => {
         };
         break;
     }
-    
-    //res.status(400).json(filters);
-    
+        
     let dataSource = "painel_bi_info_gerais_licitacoes";
     let interval = await druid.timeBoundary(dataSource);
     
@@ -197,6 +185,8 @@ module.exports = (app) => {
         "ranking_irregularidades", 
         "seq_dim_licitacao", 
         "vlr_licitacao", 
+        "nom_fonte_recurso",
+        "dsc_objeto"
       ],
       filter: filters,
       limitSpec: { 
