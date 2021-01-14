@@ -1,5 +1,5 @@
 module.exports = (app) => {
-  const service = app.services.licitacao;
+  
   const druid = app.services.druid;
 
   const controller = {};
