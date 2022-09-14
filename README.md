@@ -1,10 +1,2 @@
-# F01-painel-bi-api
-API para alimentar o Painel de BI
-
-## API Painel de BI
-
-Para o desenvolvimento, usar o `nodemon` para subir o servidor. Estando na pasta `src` digite:
-
-```
-nodemon index.js
-```
+# F02_API
+API para alimentar o Painel de BI de trilhas de licitações.

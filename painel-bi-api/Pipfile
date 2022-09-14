@@ -1,0 +1,35 @@
+# Pipfile
+
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[dev-packages]
+pytest = "*"
+
+[packages]
+fastapi = "*"
+motor = "*"
+uvicorn = "*"
+setuptools="*"
+flask-restx= "*"
+Werkzeug= "*"
+strict-rfc3339= "*"
+numpy= "*"
+scipy= "*"
+pandas= "*"
+scikit-learn= "*"
+lightgbm= "*"
+xgboost= "*"
+nltk= "*"
+python-dotenv= "*"
+sasl= "*"
+thrift-sasl= "*"
+PyHive= "*"
+httptools = "*"
+keras = "*"
+SQLAlchemy = "*"
+
+[requires]
+python_version = "3.9"
