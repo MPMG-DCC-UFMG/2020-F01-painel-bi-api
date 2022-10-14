@@ -2,6 +2,7 @@ import os
 
 from src.modules.painel_bi.v2.licitacoes.licitacoes_operations import LicitacaoQuery
 from src.modules.painel_bi.v2.licitacoes.licitacoes_operations import get_params_values
+from src.modules.painel_bi.v2.licitacoes.licitacoes_operations import get_ranking_label
 from src.modules.painel_bi.v2.model.licitacao import LicitacaoModel
 from src.modules.painel_bi.v2.model.licitante import LicitanteModel
 from src.modules.painel_bi.v2.model.detalhamento_cnpj import DetalhamentoCnpjModel
@@ -15,21 +16,19 @@ from src.modules.painel_bi.v1.utils.utils import Pageable
 from src.db.database import db_session
 
 from sqlalchemy import and_, func
+from sqlalchemy.sql import label
 
 import math
 
 class LicitacaoRepository:
-
 
     def get_licitacoes(params: LicitacaoQuery, pageable: Pageable):
         filters = get_params_values(params)
         limit = pageable.get_limit()
         offset = pageable.get_offset()
 
-        count = db_session.query(LicitacaoModel.seq_dim_licitacao) \
-                           .filter(and_(*filters)) \
-                           .count()
-
+        ranking_irregularidades = get_ranking_label(params)
+        
         result = db_session.query(
             LicitacaoModel.seq_dim_licitacao,\
             LicitacaoModel.nom_entidade,\
@@ -39,7 +38,7 @@ class LicitacaoRepository:
             LicitacaoModel.nom_modalidade,\
             LicitacaoModel.num_exercicio,\
             LicitacaoModel.vlr_licitacao,\
-            LicitacaoModel.ranking_irregularidades,\
+            ranking_irregularidades,\
             LicitacaoModel.dsc_objeto,\
             LicitacaoModel.num_exercicio_licitacao,\
             LicitacaoModel.nom_fonte_recurso,\
@@ -69,7 +68,7 @@ class LicitacaoRepository:
             LicitacaoModel.nom_modalidade,\
             LicitacaoModel.num_exercicio,\
             LicitacaoModel.vlr_licitacao,\
-            LicitacaoModel.ranking_irregularidades,\
+            ranking_irregularidades,\
             LicitacaoModel.dsc_objeto,\
             LicitacaoModel.num_exercicio_licitacao,\
             LicitacaoModel.nom_fonte_recurso,\
@@ -88,7 +87,7 @@ class LicitacaoRepository:
             LicitacaoModel.qtd_cnpjs_socio_servidor_publico,\
             LicitacaoModel.flag_lict_unic_com_venc,\
             LicitacaoModel.flag_lict_unic_sem_venc)\
-           .order_by(LicitacaoModel.ranking_irregularidades.desc())\
+           .order_by(ranking_irregularidades.desc())\
            .offset(offset) \
            .limit(limit)
 
@@ -136,6 +135,21 @@ class LicitacaoRepository:
                 "T12":qtd_cnpjs_restricao_ceis,
                 "T13":qtd_cnpjs_socio_servidor_publico
             })
+
+        res = {
+          "current_page": pageable.get_page(),
+          "data": dict_list
+        }
+
+        return res
+
+    def get_header(params: LicitacaoQuery, pageable: Pageable):
+        filters = get_params_values(params)
+
+        count = db_session.query(LicitacaoModel.seq_dim_licitacao) \
+                           .filter(and_(*filters)) \
+                           .count()
+
         heatmap_aggregations  = db_session.query( \
             func.count(LicitacaoModel.seq_dim_licitacao).label('seq_dim_licitacao'), \
             func.max(LicitacaoModel.ranking_irregularidades).label('ranking_irregularidades'), \
@@ -159,7 +173,6 @@ class LicitacaoRepository:
         irregularities  = db_session.query(func.count(LicitacaoModel.ranking_irregularidades).label('ranking_irregularidades'), func.sum(LicitacaoModel.qtde_irregularidades).label('sum_ranking_irregularidades')) \
                                     .filter(and_(*filters))
         res = {
-          "current_page": pageable.get_page(),
           "last_page": math.ceil(count/pageable.get_per_page()),
           "total": {
             "ranking_irregularidades":	irregularities[0][0],
@@ -182,8 +195,7 @@ class LicitacaoRepository:
             "T11":heatmap_aggregations[0][12],
             "T12":heatmap_aggregations[0][13],
             "T13":heatmap_aggregations[0][14],
-          },
-          "data": dict_list
+          }
         }
 
         return res

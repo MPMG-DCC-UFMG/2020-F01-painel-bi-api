@@ -16,6 +16,11 @@ async def get_licitacoes(params: LicitacaoQuery = LicitacaoQuery(), page: int = 
         page = 0
     pageable = Pageable(page, per_page)
     return service.get_licitacoes(params, pageable)
+    
+@licitacao_router.post('/header/', description='Buscar  cabeçalho das licitações de acordo com os parametros', )
+async def get_header(params: LicitacaoQuery = LicitacaoQuery(), per_page: int = 250) -> List[dict]:
+    pageable = Pageable(0, per_page)
+    return service.get_header(params, pageable)
 
 
 @licitacao_router.get('/{id}', description='Buscar licitação por ID', )

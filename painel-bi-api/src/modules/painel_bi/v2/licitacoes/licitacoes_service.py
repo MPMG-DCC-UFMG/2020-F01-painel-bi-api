@@ -7,6 +7,9 @@ class LicitacaoService:
 
     def get_licitacoes(params: LicitacaoQuery, pageable: Pageable):
         return repository.get_licitacoes(params, pageable)
+        
+    def get_header(params: LicitacaoQuery, pageable: Pageable):
+        return repository.get_header(params, pageable)
 
     def find_by_id(id_licitacao: str):
         item = repository.find_by_id(id_licitacao)
